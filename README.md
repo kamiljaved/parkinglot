@@ -54,6 +54,16 @@
   - Cross platform.
   - Cross browser.
   - Cross device responsive design.
+* Form for adding new Vehicle Entry in specific slot
+* Notification Panel for Parking Timeout
+* List-View of Vehicles in Parking Space
+* Dynamic Page-Update without reload
+* Record System
+  - Maintains a history Of Daily Vehicle Records.
+  - Provides ability to View/Download a Record in PDF form.
+  - Provides ability to send Record PDF in email.
+  - Provides Record Delete/Group-Delete Options
+* Site and App Settings Page
 
 ## How To Use
 
@@ -61,7 +71,7 @@ Make sure [Python](https://www.python.org/) and [pip](https://pip.pypa.io/en/sta
 To clone this application, you'll need [Git](https://git-scm.com). From your command line:
 
 ```bash
-# Clone this repository (or use the download option above)
+# Clone this repository (or download from github page)
 $ git clone https://github.com/kamiljaved98/parkinglot
 
 # Go into the repository
