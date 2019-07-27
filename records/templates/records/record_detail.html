@@ -1,0 +1,210 @@
+{% load static %}
+{% load js %}
+{% load minToHM %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400">
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.css">
+
+    <script src="{% static 'js/08aa760c74.js' %}" type="text/javascript"></script>
+
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/form.css' %}">
+    <link rel="stylesheet" href="{% static 'css/loader.css' %}">
+
+    <style>
+        a.dropdown-item {
+            transition: all .2s ease-in-out;
+        }
+
+        a.dropdown-item:hover {
+            transform: scale(1.1);
+            background: #2d95f600
+        }
+
+        .pdfOpt {
+            color: #444444;
+        }
+
+        .pdfOpt:hover {
+            color: #428bca;
+            text-decoration: none;
+        }
+    </style>
+
+    <title>Kings Security | Parking Lot Records</title>
+
+</head>
+
+<body>
+
+    <div class="wrapper px-3">
+        <div class="row">
+
+            <div class="col-lg-12 my-3">
+
+                <div class="parkform recordlist" style="width:100%; height:100%; padding: 0px;">
+                    <script>$(".recordlist").hide();</script>
+
+
+                    <div class="row px-5">
+
+                        <div class="col-sm-3 pt-4 text-center">
+                            <div class="btn-group btn float-left" role="group">
+                                <button type="button" class="backBtn btn btn-dark">
+                                    <i class="fas fa-arrow-left pr-3"></i>
+                                    Back
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 pdf pt-4 text-center">
+
+                            <div class="btn-group" role=group>
+                                <span class="pdfLoader"></span>
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="inputGroupSelect01">
+                                        <i class="fa fa-file-pdf-o pr-2" style="color:red"></i>PDF
+                                    </label>
+                                </div>
+                                <button class="btn btn-light border pdfOpt pdfRECv">View<i class="fas fa-angle-up pl-2"
+                                        style="color:#428bca"></i></button>
+                                <button class="btn btn-light border pdfOpt pdfRECd">Download<i
+                                        class="fas fa-download pl-2" style="color:#428bca"></i> </button>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-3 optionbar pt-4 text-center">
+                            <div class="btn-group btn recOpts float-right" role="group" aria-label="Options">
+                                <button type="button" class="delREC btn btn-danger">Delete Record</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="todaysRecord mt-4">
+                        <div class="row pt-4 pb-2">
+                            <div class="col-lg-4 float-left">
+                                <h2><span style="color:rgb(106, 107, 107); font-size:80%">Record Detail</span></h2>
+                            </div>
+                            <div class="col-lg-4">
+                                <h2>{{ record.date|date:"D, d F Y" }}</h2>
+                            </div>
+                            <div class="col-lg-4 float-right">
+                                <h2><span class="pr-2" style="color:rgb(106, 107, 107); font-size:80%">Total Customers:
+                                    </span>{{ record.customers.all.count }}</h2>
+                            </div>
+                        </div>
+
+                        <hr class="mt-2">
+
+                        <div class="my-4" style="font-size:90%">
+                            <table class="table table-hover">
+                                <tbody>
+                                    <tr class="bg-dark" style="color:whitesmoke">
+                                        <th>
+                                            <div>Vehicle Reg. No.</div>
+                                        </th>
+                                        <th>
+                                            <div>Entry Time</div>
+                                        </th>
+                                        <th>
+                                            <div>Slot Alloted</div>
+                                        </th>
+                                        <th>
+                                            <div>Time Alloted</div>
+                                        </th>
+                                    </tr>
+                                    {% for customer in record.customers.all %}
+                                    <tr id="customers" data-id='{{ customer.id }}'>
+                                        <td>
+                                            <div style="font-size: 110%">{{ customer.vehicle_reg_no }}</div>
+                                        </td>
+                                        <td>
+                                            <div style="font-size: 110%">{{ customer.entry_time|date:'h:i a' }}</div>
+                                        </td>
+                                        <td>
+                                            <div style="font-size: 110%">
+                                                {% if customer.slot.slot_type == 1 %}
+                                                <b style="color:red;">Standard</b>
+                                                {% else %}
+                                                <b style="color:rgb(56, 148, 56);">VIP</b>
+                                                {% endif %}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div style="font-size: 110%">
+                                                {{ customer.alloted_minutes|minToHM }}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    </div>
+
+    {% block js %}
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+    {% endblock %}
+
+    {% block extrajs %}
+    <script>
+        var recid = "{{ record.pk | js }}".toString();
+        var back_url = "{{ back_url }}";
+        $(".backBtn").on("click", function () { location.href = back_url; });
+        $(".pdfRECv").on("click", function () { location.href = "/records/" + recid + "/pdf/"; showLoaderTemp(); });
+        $(".pdfRECd").on("click", function () { location.href = "/records/" + recid + "/pdf/download/"; showLoaderTemp(); });
+        $(".delREC").on("click", function () { deleteRecord() });
+    </script>
+    <script src="{% static 'js/record.js' %}" type="text/javascript"></script>
+
+    <script>
+        function hideLoader() {
+            $(".pdfLoader").html("");
+        }
+        function showLoaderTemp() {
+            $(".pdfLoader").append("<div class='loader-1 center'><span></span></div>");
+            setTimeout(hideLoader, 7000)
+        }
+    </script>
+
+    {% endblock %}
+
+
+</body>
+
+</html>

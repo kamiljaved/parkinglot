@@ -1,0 +1,223 @@
+{% load static %}
+{% load js %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400">
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.css">
+
+    <script src="{% static 'js/08aa760c74.js' %}" type="text/javascript"></script>
+
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/form.css' %}">
+    <link rel="stylesheet" href="{% static 'css/loader.css' %}">
+    <link rel="stylesheet" href="{% static 'css/animate.css' %}">
+
+    <style>
+        a.dropdown-item {
+            transition: all .2s ease-in-out;
+        }
+
+        a.dropdown-item:hover {
+            transform: scale(1.1);
+            background: #2d95f600
+        }
+
+        tr {
+            cursor: pointer;
+        }
+
+        .pdfOpt {
+            color: #444444;
+        }
+
+        .pdfOpt:hover {
+            color: #428bca;
+            text-decoration: none;
+        }
+
+        .loader-1 span::after {
+            border: 3px solid rgb(85, 85, 85);
+        }
+    </style>
+
+    <title>Kings Security | Parking Lot Records</title>
+
+</head>
+
+<body>
+
+    <div class="wrapper px-3">
+        <div class="row">
+
+            <div class="col-lg-12 my-3">
+
+                <div class="parkform recordlist" style="width:100%; height:100%; padding: 0px;">
+                    <script>$(".recordlist").hide();</script>
+
+
+                    <div class="row px-5">
+                        <div class="col-sm-12 pt-4 text-center">
+                            <div class="btn-group btn float-left" role="group">
+                                <button type="button" class="backBtn btn btn-dark">
+                                    <i class="fas fa-arrow-left pr-3"></i>
+                                    Back
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="">
+                        <h2 class="pb-3">Email Record</h2>
+                        <hr class="mt-2 mb-5">
+
+                        <div class="container" style="margin-bottom: 100px;">
+                            <fieldset class="form-group">
+                                <legend class="border-bottom mb-4">Send Record in Email
+                                    <button class="btn btn-dark defEmail mb-1 mx-2 float-right">
+                                        Set Default Email
+                                    </button>
+                                    {% if todays_record is not None %}
+                                    <button class="btn btn-dark todRecord mb-1 mx-2 float-right">
+                                        Select Today's Record
+                                    </button>
+                                    {% endif %}
+                                </legend>
+
+                                <div class="form-row pt-5 pb-4">
+                                    <div class="form-group col-md-6 mb-0 px-5">
+
+                                        <div class="input-group recordSel">
+                                            <div class="input-group-prepend">
+                                                <label class="input-group-text" for="inputGroupSelect01">Record</label>
+                                            </div>
+
+                                            <select class="records custom-select" id="records">
+                                                {% if todays_record is not None %}
+                                                <option id="record" selected data-id="{{ todays_record.id }}">[Today's
+                                                    Record] {{ todays_record.date|date:"d-m-Y" }}
+                                                    ({{ todays_record.customers.all.count }})</option>
+                                                {% else %}
+                                                <option id="record" selected data-id="unchosen">Choose a Record...
+                                                </option>
+                                                {% endif %}
+
+                                                {% for record in prev_records %}
+                                                <option id="record" data-id="{{ record.pk }}">
+                                                    {{ record.date|date:"d-m-Y" }} ({{ record.customers.all.count }})
+                                                </option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group col-md-6 mb-0 px-5" style="margin-top: -3%;">
+
+                                        <div class="txtbf">
+                                            <input type="text" id="email">
+                                            <span data-placeholder="Email"></span>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                            </fieldset>
+
+                            <div class="form-group float-right px-5">
+                                <button class="btn btn-outline-dark sendEmail p-2 px-3" type="submit">
+                                    <i class="fa fa-paper-plane-o pr-3"></i>
+                                    Send Email
+                                </button>
+                            </div>
+                            <span class="pdfLoader float-right"></span>
+
+                        </div>
+
+                        <div class="container px-2">
+                            <div class="error1" style="margin-top:-10%; margin-bottom:10%; color:tomato; font-size:85%">
+                                <i class="fa fa-times  pr-2" aria-hidden="true"></i>Please Select a Record.
+                            </div>
+                            <div class="error2" style="margin-top:-10%; margin-bottom:10%; color:tomato; font-size:85%">
+                                <i class="fa fa-times  pr-2" aria-hidden="true"></i>Invalid Email.
+                            </div>
+                        </div>
+
+                        <script>$(".error1").hide(); $(".error2").hide();</script>
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    </div>
+
+
+
+    {% block js %}
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+    {% endblock %}
+
+    {% block extrajs %}
+
+    <script>
+        var default_email = '{{ settings.default_email }}'
+    </script>
+
+    <script src="{% static 'js/form.js' %}" type="text/javascript"></script>
+
+    <script src="{% static 'js/email.js' %}" type="text/javascript"></script>
+
+
+    {% if todays_record is not None %}
+    <script>
+
+        var todays_id = "{{ todays_record.id | js }}".toString();
+
+        $(".todRecord").on("click", function () {
+
+            $('#records').find(":selected").prop("selected", "");
+            $("#record[data-id='" + todays_id + "'").prop("selected", "selected");
+        })
+
+    </script>
+    {% endif %}
+
+    {% endblock %}
+
+</body>
+
+<script>
+
+
+</script>
+
+</html>

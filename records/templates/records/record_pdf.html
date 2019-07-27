@@ -1,0 +1,122 @@
+{% load static %}
+{% load js %}
+{% load minToHM %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'css/form.css' %}">
+
+    <style>
+        @page {
+            size: "A4";
+
+            @bottom-right {
+                content: "Page "counter(page) " of "counter(pages);
+            }
+        }
+
+    </style>
+
+    <title>Kings Security | Parking Lot Records</title>
+
+</head>
+
+<body>
+    <div class="wrapper px-4">
+        <div class="row">
+
+            <div class="col-12 my-3">
+
+                <div class="parkform recordlist" style="width:100%; height:100%; padding: 0px;">
+
+
+                    <div class="todaysRecord">
+                        <div class="row" >
+                            <div class="col-7">
+                                <h3 style="float:left; margin-top:0px;">
+                                    <span class="" style="color:rgb(106, 107, 107); font-size:60%">{{ record.date|date:"D," }}</span>
+                                    {{ record.date|date:"d F Y" }}
+                                </h3>
+                            </div>
+                            <div class="col-5 pl-4">
+                                <h3 style="float:right; margin-top:0px;">
+                                    {{ record.customers.all.count }}
+                                    <span class="pl-1" style="color:rgb(106, 107, 107); font-size:60%">Customers</span>
+                                </h3>
+                            </div>
+                        </div>
+
+                        <hr style="padding-bottom: 2%">
+
+                        <div class="my-4" style="font-size:90%">
+                            <table class="table">
+                                <tbody>
+                                    <tr class="bg-dark"
+                                        style="font-size: 120%; font-style: italic;  color:whitesmoke;">
+                                        <th>
+                                            <div>Vehicle Reg. No.</div>
+                                        </th>
+                                        <th>
+                                            <div>Entry Time</div>
+                                        </th>
+                                        <th>
+                                            <div>Slot Alloted</div>
+                                        </th>
+                                        <th>
+                                            <div>Time Alloted</div>
+                                        </th>
+                                    </tr>
+                                    {% for customer in record.customers.all %}
+                                    <tr id="customers" data-id='{{ customer.id }}'>
+                                        <td>
+                                            <div style="font-size: 110%">{{ customer.vehicle_reg_no }}</div>
+                                        </td>
+                                        <td>
+                                            <div style="font-size: 110%">{{ customer.entry_time|date:'h:i a' }}</div>
+                                        </td>
+                                        <td>
+                                            <div style="font-size: 110%">
+                                                {% if customer.slot.slot_type == 1 %}
+                                                <b style="color:red;">Standard</b>
+                                                {% else %}
+                                                <b style="color:rgb(56, 148, 56);">VIP</b>
+                                                {% endif %}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div style="font-size: 110%">
+                                                {{ customer.alloted_minutes|minToHM }}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    </div>
+
+</body>
+
+<script>
+
+
+</script>
+
+</html>
