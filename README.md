@@ -82,6 +82,6 @@ $ http://127.0.0.1:8000/
 
 ---
 
-> [kamiljaved.epizy.com](https://kamiljaved.epizy.com) &nbsp;&middot;&nbsp;
+> [kamiljaved.epizy.com](kamiljaved.epizy.com) &nbsp;&middot;&nbsp;
 > GitHub [@kamiljaved98](https://github.com/kamiljaved98) &nbsp;&middot;&nbsp;
 > Instagram [@kamiljaved98](https://instagram.com/kamiljaved98)
