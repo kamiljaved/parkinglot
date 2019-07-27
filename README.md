@@ -12,7 +12,16 @@
 		<img src="https://www.djangoproject.com/m/img/badges/djangoproject120x25.gif" border="0" alt="A Django project." title="A Django project." />
 	</a>
   <a href="https://www.python.org/">
-		<img src="http://ForTheBadge.com/images/badges/made-with-python.svg" alt="Python">
+		<img src="http://ForTheBadge.com/images/badges/made-with-python.svg" alt=" Made with Python.">
+  </a>
+  <a href="https://www.w3.org/standards/webdesign/htmlcss">
+		<img src="http://ForTheBadge.com/images/badges/uses-html.svg" alt="Uses HTML.">
+  </a>
+  <a href="https://www.w3.org/standards/webdesign/htmlcss">
+		<img src="http://ForTheBadge.com/images/badges/uses-css.svg" alt="Uses CSS.">
+  </a>
+  <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript">
+		<img src="http://ForTheBadge.com/images/badges/uses-js.svg" alt="Uses JavaScript.">
   </a>
 </p>
 
