@@ -8,17 +8,11 @@
 <h4 align="center">A web application to manage assignment of parking-lots to vehicles, and track daily usage.</h4>
 
 <p align="center">
-
+	<a href="http://www.djangoproject.com/">
+		<img src="https://www.djangoproject.com/m/img/badges/djangoproject120x25.gif" border="0" alt="A Django project." title="A Django project." />
+	</a>
   <a href="https://www.python.org/">
-    <img src="http://ForTheBadge.com/images/badges/made-with-python.svg"
-         alt="Gitter">
-  </a>
-  <a href="https://gitter.im/amitmerchant1990/electron-markdownify"><img src="https://badges.gitter.im/amitmerchant1990/electron-markdownify.svg"></a>
-  <a href="https://saythanks.io/to/amitmerchant1990">
-      <img src="https://img.shields.io/badge/SayThanks.io-%E2%98%BC-1EAEDB.svg">
-  </a>
-  <a href="https://www.paypal.me/AmitMerchant">
-    <img src="https://img.shields.io/badge/$-donate-ff69b4.svg?maxAge=2592000&amp;style=flat">
+		<img src="http://ForTheBadge.com/images/badges/made-with-python.svg" alt="Python">
   </a>
 </p>
 
