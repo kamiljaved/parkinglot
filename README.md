@@ -57,12 +57,12 @@
 * Form for adding new Vehicle Entry in specific slot
 * Notification Panel for Parking Timeout
 * List-View of Vehicles in Parking Space
-* Dynamic Page-Update without reload
+* Dynamic Page-Update without Page-Reload
 * Record System
-  - Maintains a history Of Daily Vehicle Records.
-  - Provides ability to View/Download a Record in PDF form.
-  - Provides ability to send Record PDF in email.
-  - Provides Record Delete/Group-Delete Options
+  - History Of Daily Vehicle Records.
+  - View/Download a Record in PDF form.
+  - Send Record PDF in email.
+  - Record Delete/Group-Delete Options
 * Site and App Settings Page
 
 ## How To Use
