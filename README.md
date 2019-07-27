@@ -15,13 +15,13 @@
 		<img src="http://ForTheBadge.com/images/badges/made-with-python.svg" alt=" Made with Python.">
   </a>
   <a href="https://www.w3.org/standards/webdesign/htmlcss">
-		<img src="http://ForTheBadge.com/images/badges/uses-html.svg" height="25px" alt="Uses HTML.">
+		<img src="http://ForTheBadge.com/images/badges/uses-html.svg" height="30px" alt="Uses HTML.">
   </a>
   <a href="https://www.w3.org/standards/webdesign/htmlcss">
-		<img src="http://ForTheBadge.com/images/badges/uses-css.svg" height="25px" alt="Uses CSS.">
+		<img src="http://ForTheBadge.com/images/badges/uses-css.svg" height="30px" alt="Uses CSS.">
   </a>
   <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript">
-		<img src="http://ForTheBadge.com/images/badges/uses-js.svg" height="25px" alt="Uses JavaScript.">
+		<img src="http://ForTheBadge.com/images/badges/uses-js.svg" height="30px" alt="Uses JavaScript.">
   </a>
 </p>
 
