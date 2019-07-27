@@ -80,4 +80,8 @@ $ http://127.0.0.1:8000/
 
 * Due to polling for Notifications, a delay of max 8 seconds may occur in showing a notifcation.
 
+---
 
+> [kamiljaved.epizy.com](https://kamiljaved.epizy.com) &nbsp;&middot;&nbsp;
+> GitHub [@kamiljaved98](https://github.com/kamiljaved98) &nbsp;&middot;&nbsp;
+> Instagram [@kamiljaved98](https://instagram.com/kamiljaved98)
