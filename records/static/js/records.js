@@ -113,6 +113,59 @@ function deleteRecord(recid)
             }
         },
         error: function (data) {
+            alert("Error Deleting Record");
+        }
+    })
+}
+
+
+
+function groupdelete(how_old) 
+{
+    // remove previous events
+    $(".pdfRECv").prop("onclick", null).off("click");
+    $(".pdfRECd").prop("onclick", null).off("click");
+    $(".detREC").prop("onclick", null).off("click");
+    $(".delREC").prop("onclick", null).off("click");
+    $('.recOpts').addClass('disabled');
+    $(".recOpts").css("pointer-events", "none")
+
+    $("#todaysRecRow").removeClass('selected');
+    $("#todaysRecRow").removeClass('table-active');
+    let sel = $('#prevRecBody').find(".selected");
+    sel.removeClass('selected');
+    sel.removeClass('table-active');
+
+    $(".grpdelete").addClass('disabled');
+
+    $.ajax({
+        url: "/records/groupdelete/",
+        type: 'post',
+        dataType: 'json',
+        data: {
+            'start': $('#id_startTime').val(),
+            'end': $('#id_endTime').val(),
+            'how_old': how_old,
+            'csrfmiddlewaretoken': $("#csrfmiddlewaretoken").val()
+        },
+        success: function (data) {
+
+            let delete_count = data['delete_count']
+
+            if (delete_count === 0)
+            {
+                alert("No Such Records Exist.");
+            }
+            else if (delete_count > 0)
+            {
+                alert(delete_count.toString() + " Records Deleted.");
+                location.href = "/records/"
+            }
+            $(".grpdelete").removeClass('disabled');
+        },
+        error: function (data) {
+            alert("Error Deleting Records");
+            $(".grpdelete").removeClass('disabled');
         }
     })
 }

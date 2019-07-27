@@ -98,8 +98,8 @@
         <div class="row">
             <div class="col-lg-4 my-3">
 
-                <div class="parkform" style="max-height: 600px;">
-                    <script>$(".parkform").hide();</script>
+                <div class="parkform" id="vehicleForm" style="max-height: 600px;">
+                    <script>$("#vehicleForm").hide();</script>
 
                     <button type="button float-left" id="sidebarCollapse" class="btn btn-dark">
                         <i class="fas fa-align-left"></i>
@@ -238,6 +238,7 @@
             <div class="col-lg-8" style="padding: 0px; margin: 0px;">
                 <div class="row" id=refresh style="height:100%; padding: 0px; margin: 0px;">
                     <div class="col-lg-7 my-3">
+   
                         <section id="messages">
                             {% if messages %}
                             {% for message in messages %}
@@ -253,7 +254,7 @@
                                 Notifications
                                 <span id="notifCount">(<span class="notifNum">{{ notif_count }}</span>)</span>
                             </div>
-                            <div class="comp mt-4">
+                            <div class="notifWrap comp mt-4">
 
                                 {% for notif in notifications %}
                                 <div class='task notif py-3' data-id="{{ notif.id }}">
@@ -269,8 +270,8 @@
 
                     <div class="col-lg-5 my-3">
 
-                        <div class="parkform parklist" style="width:100%; height:100%; padding: 0px;">
-                            <script>$(".parklist").hide();</script>
+                        <div class="parkform" id="parklist" style="width:100%; height:100%; padding: 0px;">
+                            <script>$("#parklist").hide();</script>
                             <h2 class="py-3">Parking List</h2>
                             <hr class="mt-2">
                             <div class="my-4" style="font-size:90%">
@@ -289,12 +290,12 @@
                                         </tr>
                                         <span style="max-height: 600px; overflow-y: scroll;" id="pList">
                                             {% for cust in customers %}
-                                            <tr>
+                                            <tr id="cust" data-id="{{ cust.notification_id }}">
                                                 <td>
                                                     <div>{{ cust.vehicle_reg_no }}</div>
                                                 </td>
                                                 <td>
-                                                    <div>{{ cust.slot.id }}
+                                                    <div>{{ cust.slot.slot_num }}
                                                         {% if cust.slot.slot_type == 1 %} (Std.)
                                                         {% elif cust.slot.slot_type == 2 %} (VIP)
                                                         {% endif %}
@@ -322,8 +323,8 @@
 
     {% block js %}
 
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
-        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
 
     {% endblock %}
 
@@ -338,126 +339,9 @@
 
 </body>
 
-<script
-    src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
-
-<script type="text/javascript">
-
-    $(document).ready(function () {
-
-        $("#sidebar").mCustomScrollbar({
-            theme: "minimal"
-        });
-
-        $('#dismiss, .overlay').on('click', function () {
-            $('#sidebar').removeClass('active');
-            $('.overlay').removeClass('active');
-        });
-
-        $('#sidebarCollapse').on('click', function () {
-            $('#sidebar').addClass('active');
-            $('.overlay').addClass('active');
-            $('.collapse.in').toggleClass('in');
-            $('a[aria-expanded=true]').attr('aria-expanded', 'false');
-        });
-    });
-</script>
 
 <script>
 
-    var delete_list = [];
-
-    var deleting = false;
-    var loading = false;
-
-    function deleteNotif(notifid) {
-        delete_list.push(notifid);
-        console.log(delete_list);
-
-        var p = $(".delBtn[data-id='" + notifid + "']").parent();
-        p.fadeOut("fast", function () {
-            p.remove();
-            $(".notifNum").html(parseInt($(".notifNum").html()) - 1)
-        });
-    }
-
-    function refreshData() {
-
-        if (!deleting && !loading) {
-            if (delete_list.length > 0) {
-                console.log("deleting")
-                console.log(delete_list)
-                deleting = true;
-
-                pk_list = [...delete_list];
-                delete_list = [];
-                // ajax call
-                $.ajax({
-                    url: "/notifications/delete/",
-                    type: 'post',
-                    dataType: 'json',
-                    data: {
-                        'start': $('#id_startTime').val(),
-                        'end': $('#id_endTime').val(),
-                        'delete_list[]': pk_list,
-                        'csrfmiddlewaretoken': $("#csrfmiddlewaretoken").val()
-                    },
-                    success: function (data) {
-                        // slots update
-
-                        deleting = false
-
-                        let notif_count = data['notif_count'].toString();
-
-                        let visVIP = $("#slotsVIP").is(":visible")
-                        let visStd = $("#slotsStandard").is(":visible")
-
-                        $('.slotSel').load(document.URL + ' .slotSel', function () {
-                            if (visVIP)
-                                $("#slotsStandard").hide();
-                            else if (visStd)
-                                $("#slotsVIP").hide();
-                        });
-
-                        // parking lot update
-                        console.log("loading parkings")
-                        loading_parkings = true;
-                        $('.parklist').load(document.URL + ' .parklist', function () {
-                            loading_parkings = false;
-                        })
-                        load_counter = 2;
-                    },
-                    error: function (data) {
-                        deleting = false
-                    }
-                })
-            }
-        }
-        if (!deleting && !loading) {
-
-            console.log("loading notifications+parking")
-            loading_notifications = true;
-            // changed to edit loaded div and then put it in page
-            // edit parking lot customer data
-            let $div = $('<div>');
-
-            $div.load(document.URL + ' #refresh', function () {
-
-                let notifDiv = $div.find("#notifDiv");
-
-                for (i = 0; i < delete_list.length; i++) {
-                    notifDiv.find(" .notif[data-id='" + delete_list[i] + "']").remove();
-                    let notifNum = notifDiv.find(".notifNum");
-                    notifNum.html(parseInt(notifNum.html()) - 1)
-                }
-                $("#notifDiv").html(notifDiv.html());
-                $(".parklist").html($($div.find(".parklist")).html());
-
-                loading_notifications = false;
-            });
-        }
-    }
-    setInterval(refreshData, 8000)
 
 </script>
 

@@ -8,7 +8,22 @@ $(function () {
 
 $(document).ready(function () {
 
-    console.log("ready func")
+    $("#sidebar").mCustomScrollbar({
+        theme: "minimal"
+    });
+
+    $('#dismiss, .overlay').on('click', function () {
+        $('#sidebar').removeClass('active');
+        $('.overlay').removeClass('active');
+    });
+
+    $('#sidebarCollapse').on('click', function () {
+        $('#sidebar').addClass('active');
+        $('.overlay').addClass('active');
+        $('.collapse.in').toggleClass('in');
+        $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+    });
+
     $("#parkBtn").on("click", function () {
 
         cleaned_reg = ""
@@ -50,6 +65,121 @@ $(document).ready(function () {
     });
 
 })
+
+var delete_list = [];
+
+var deleting = false;
+var loading = false;
+
+function deleteNotif(notifid) {
+    
+    if (!delete_list.includes(notifid)) {
+        delete_list.push(notifid);
+        $(".delBtn[data-id='" + notifid + "']").prop("onclick", null).off("click");
+        $(".delBtn[data-id='" + notifid + "']").addClass("disabled");
+
+        var p = $(".delBtn[data-id='" + notifid + "']").parent();
+        p.fadeOut("fast", function () {
+            p.remove();
+            $(".notifNum").html($(".notifWrap div").length)
+            $("#cust[data-id='" + notifid + "']").remove();
+        });
+    }
+    else {
+        $(".delBtn[data-id='" + notifid + "']").prop("onclick", null).off("click");
+        $(".delBtn[data-id='" + notifid + "']").addClass("disabled");
+    }
+}
+
+function refreshData() {
+
+    if (!deleting && !loading) {
+        if (delete_list.length > 0) {
+
+            deleting = true;
+
+            pk_list = [...delete_list];
+            delete_list = [];
+            // ajax call
+            $.ajax({
+                url: "/notifications/delete/",
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    'start': $('#id_startTime').val(),
+                    'end': $('#id_endTime').val(),
+                    'delete_list[]': pk_list,
+                    'csrfmiddlewaretoken': $("#csrfmiddlewaretoken").val()
+                },
+                success: function (data) {
+                    // slots update
+
+                    deleting = false
+
+                    let notif_count = data['notif_count'].toString();
+
+                    let visVIP = $("#slotsVIP").is(":visible")
+                    let visStd = $("#slotsStandard").is(":visible")
+
+                    $('.slotSel').load(document.URL + ' .slotSel', function () {
+                        if (visVIP)
+                            $("#slotsStandard").hide();
+                        else if (visStd)
+                            $("#slotsVIP").hide();
+                    });
+
+                    loading = true;
+                    // changed to edit loaded div and then put it in page
+                    let $div = $('<div>');
+
+                    $div.load(document.URL + ' #refresh', function () {
+
+                        let notifDiv = $div.find("#notifDiv");
+                        let parklist = $div.find("#parklist");
+
+                        for (i = 0; i < delete_list.length; i++) {
+                            notifDiv.find(" .notif[data-id='" + delete_list[i] + "']").remove();
+                            parklist.find(" #cust[data-id='" + delete_list[i] + "']").remove();
+                        }
+                        notifDiv.find(".notifNum").html(notifDiv.find(".notifWrap div").length)
+
+                        $("#notifDiv").html(notifDiv.html());
+                        $("#parklist").html(parklist.html());
+
+                        loading = false;
+                    });
+                },
+                error: function (data) {
+                    deleting = false
+                }
+            })
+        }
+    }
+    if (!deleting && !loading) {
+
+        loading = true;
+        // changed to edit loaded div and then put it in page
+        let $div = $('<div>');
+
+        $div.load(document.URL + ' #refresh', function () {
+
+            let notifDiv = $div.find("#notifDiv");
+            let parklist = $div.find("#parklist");
+
+            for (i = 0; i < delete_list.length; i++) {
+                notifDiv.find(" .notif[data-id='" + delete_list[i] + "']").remove();
+                parklist.find(" #cust[data-id='" + delete_list[i] + "']").remove();
+            }
+            notifDiv.find(".notifNum").html(notifDiv.find(".notifWrap div").length)
+
+            $("#notifDiv").html(notifDiv.html());
+            $("#parklist").html(parklist.html());
+
+            loading = false;
+        });
+    }
+}
+setInterval(refreshData, 8000)
 
 function cleanData(reg, lot, time) {
     let error = false;
@@ -98,22 +228,26 @@ function sendData(reg, lot, time, hrs, mins) {
 
                 $("#slotOpt[data-id='" + lot + "']").remove();
 
-                loading_parkings = true;
-                $('.parklist').load(document.URL + ' .parklist', function () {
-                    loading_parkings = false;
-                })
+                loading = true;
+                // changed to edit loaded div and then put it in page
+                let $div = $('<div>');
 
-                setTimeout(function () {
-                    loading_notifications = true;                                      
-                    let $div = $('<div>');
-                    $div.load(document.URL + ' #notifDiv', function () {
-                        for(i=0; i<delete_list.length; i++)
-                            console.log($div.find(".notif[data-id='"+delete_list[i]+"']"))
-                            $div = $div.find(".notif[data-id='"+delete_list[i]+"']").remove();
-                        loading_notifications = false;
-                        $(" #notifDiv").html($div.html());
-                    });
-                }, 1500);
+                $div.load(document.URL + ' #refresh', function () {
+
+                    let notifDiv = $div.find("#notifDiv");
+                    let parklist = $div.find("#parklist");
+
+                    for (i = 0; i < delete_list.length; i++) {
+                        notifDiv.find(" .notif[data-id='" + delete_list[i] + "']").remove();
+                        parklist.find(" #cust[data-id='" + delete_list[i] + "']").remove();
+                    }
+                    notifDiv.find(".notifNum").html(notifDiv.find(".notifWrap div").length)
+
+                    $("#notifDiv").html(notifDiv.html());
+                    $("#parklist").html(parklist.html());
+
+                    loading = false;
+                });
             }
         },
         error: function (data) {
@@ -121,44 +255,6 @@ function sendData(reg, lot, time, hrs, mins) {
     })
 }
 
-function deleteNotification(notifid) {
-
-    $.ajax({
-        url: "/notifications/" + notifid + "/delete/",
-        type: 'post',
-        dataType: 'json',
-        data: {
-            'start': $('#id_startTime').val(),
-            'end': $('#id_endTime').val(),
-            'csrfmiddlewaretoken': $("#csrfmiddlewaretoken").val()
-        },
-        success: function (data) {
-            // slots update
-
-            deleting = false
-
-            let notif_count = data['notif_count'].toString();
-
-            $("#notifCount").html("(" + notif_count + ")")
-
-            let visVIP = $("#slotsVIP").is(":visible")
-            let visStd = $("#slotsStandard").is(":visible")
-
-            $('.slotSel').load(document.URL + ' .slotSel', function () {
-                if (visVIP)
-                    $("#slotsStandard").hide();
-                else if (visStd)
-                    $("#slotsVIP").hide();
-            });
-
-            // parking lot update
-            $('.parklist').load(document.URL + ' .parklist');
-        },
-        error: function (data) {
-            deleting = false
-        }
-    })
-}
 
 function removeErrors() {
     $(".error1").hide();

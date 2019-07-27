@@ -105,7 +105,8 @@ def record_pdf_file(pk):
     ]
 
     html = HTML(string=html)
-    html.write_pdf(target=settings.MEDIA_ROOT+"/"+filename, stylesheets=stylesheets)
+    html.write_pdf(target=settings.MEDIA_ROOT+"/" +
+                   filename, stylesheets=stylesheets)
 
     return settings.MEDIA_ROOT+"/"+filename
 
@@ -148,9 +149,10 @@ def record_email_send(request):
             email = EmailMessage()
 
             email.subject = "Parking Lot Record: " + str(record.date)
-            email.body = "PDF Attachment for Customer Record on " + str(record.date) + "."
+            email.body = "PDF Attachment for Customer Record on " + \
+                str(record.date) + "."
             email.from_email = "Parking Lot Records <no-reply@parkinglot.com>"
-            email.to = [ to_email, ]
+            email.to = [to_email, ]
 
             # generate and attach pdf
             email.attach_file(record_pdf_file(record.pk))
@@ -218,7 +220,7 @@ def record_current(request):
         record = record[0]
 
     if record is None:
-        messages.info(request, 'Record does not exist.')
+        messages.error(request, 'Record does not exist.', extra_tags="danger")
         return redirect('home')
     else:
         context = {
@@ -242,4 +244,31 @@ def record_delete(request):
         deleted = True
     return JsonResponse({
         'deleted': deleted,
+    })
+
+
+@csrf_exempt
+def record_groupdelete(request):
+    delete_count = 0
+    if request.method == 'POST':
+        how_old = request.POST['how_old']
+
+        days = 1000000
+
+        if how_old == 'year_old':       days = 365
+        elif how_old == 'month_old':    days = 30 
+        elif how_old == 'week_old':     days = 7
+        elif how_old == 'all_old':      days = 0
+
+        records = DailyRecord.objects.filter(date__lt=date.today()-timedelta(days=days))
+
+        for record in records:
+            # delete record customers
+            record.customers.all().delete()
+
+        delete_count = records.count()
+        records.delete()
+
+    return JsonResponse({
+        'delete_count': delete_count,
     })

@@ -3,8 +3,8 @@ $(document).ready(function () {
     $("#checkVIP").hide();
     $("#slotsVIP").hide();
 
-    $(".parkform").fadeIn(500);   
-    $(".parklist").fadeIn(500);        
+    $("#vehicleForm").fadeIn(500);   
+    $("#parklist").fadeIn(500);        
 
     $("#btnStandard").on('click', function(e){
         $("#checkVIP").hide(); $("#slotsVIP").hide(); 

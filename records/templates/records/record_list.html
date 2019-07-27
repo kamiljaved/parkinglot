@@ -34,11 +34,11 @@
     <link rel="stylesheet" href="{% static 'css/loader.css' %}">
 
     <style>
-        a.dropdown-item {
+        button.dropdown-item {
             transition: all .2s ease-in-out;
         }
 
-        a.dropdown-item:hover {
+        button.dropdown-item:hover {
             transform: scale(1.1);
             background: #2d95f600
         }
@@ -103,20 +103,20 @@
                             </div>
                         </div>
 
-                        <div class="col-sm-2 groupdelete pt-4 text-center">
-                            <div class="btn-group btn float-right" role="group">
+                        <div class="col-sm-2 pt-4 text-center">
+                            <div class="btn-group btn grpdelete float-right" role="group">
                                 <button id="btnGroupDrop1" type="button" class="btn btn-danger dropdown-toggle"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Group Delete
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                    <a class="dropdown-item" href="#">1+ Weeks Old</a>
+                                    <button class="btn btn-danger dropdown-item" onclick="groupdelete('year_old')">1+ Years Old</button>
                                     <hr class="m-1 p-1">
-                                    <a class="dropdown-item" href="#">1+ Months Old</a>
+                                    <button class="btn btn-danger dropdown-item" onclick="groupdelete('month_old')">1+ Months Old</button>
                                     <hr class="m-1 p-1">
-                                    <a class="dropdown-item" href="#">1+ Years Old</a>
+                                    <button class="btn btn-danger dropdown-item" onclick="groupdelete('week_old')">1+ Week Old</button>
                                     <hr class="m-1 p-1">
-                                    <a class="dropdown-item" href="#">All Previous Records</a>
+                                    <button class="btn btn-danger dropdown-item" onclick="groupdelete('all_old')">All Previous Records</button>
                                 </div>
                             </div>
                         </div>

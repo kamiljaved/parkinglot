@@ -12,18 +12,15 @@ class Slot(models.Model):
         (2, 'VIP'),
     ]
 
-    nVIPSlots = 27
-    nStandardSlots = 27
-    nTotalSlots = nVIPSlots + nStandardSlots
-
     slot_type = models.PositiveIntegerField(choices=SLOT_TYPES, default=Standard)
     occupied = models.BooleanField(default=False)
+    slot_num = models.PositiveIntegerField(blank=True, null=True)
     
     class Meta:
         ordering = ['pk']
 
     def __str__(self):
-        return f'Parking Slot ID-{self.pk} Type-{self.SLOT_TYPES[self.slot_type-1][1]}'
+        return f'Parking Slot # {self.slot_num} Type-{self.SLOT_TYPES[self.slot_type-1][1]}'
 
 
 
@@ -41,6 +38,7 @@ class Customer(models.Model):
 
     # is customer active or part of a record
     is_active = models.BooleanField(default=True)
+    notification_id = models.PositiveIntegerField(blank=True, null=True)
 
     class Meta:
         ordering = ['entry_time']

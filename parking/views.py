@@ -98,11 +98,13 @@ def add_vehicle(request):
             else:
                 strTime = f'{hrs} hrs {mins} mins'
 
-            notifContent = f'{strTime} up for {reg} - Slot {slot.pk} ({Slot.SLOT_TYPES[slot.slot_type-1][1]})'
+            notifContent = f'{strTime} up for {reg} - Slot {slot.slot_num} ({Slot.SLOT_TYPES[slot.slot_type-1][1]})'
             notif = Notification(content = notifContent, slot_id=slot.id, customer_id=customer.id)
             notif.save()
             notification_pushed = True
 
+            customer.notification_id = notif.id
+            customer.save()
             # un-comment for using celery
             # push notification to celery
             # minutes = time
@@ -128,29 +130,9 @@ def add_vehicle(request):
         }
         return JsonResponse(data)
 
-@csrf_exempt
-def delete_notification(self, pk):
-    
-    notif = Notification.objects.get(id=pk)
-    notif.ready_to_show = False
-
-    customer = Customer.objects.get(id=notif.customer_id)
-    customer.is_active = False
-    customer.save()
-
-    slot = Slot.objects.get(id=notif.slot_id)
-    slot.occupied = False
-    slot.save()
-    
-    notif.delete()
-    
-    return JsonResponse({
-            'slot_type': Slot.SLOT_TYPES[slot.slot_type-1][1],
-            'notif_count': Notification.objects.filter(ready_to_show=True).count(),
-        })
 
 @csrf_exempt
-def delete_notification_bulk(request):
+def delete_notifications(request):
     if request.method=='POST':
         delete_list = request.POST.getlist('delete_list[]')
 
@@ -160,6 +142,7 @@ def delete_notification_bulk(request):
 
             customer = Customer.objects.get(id=notif.customer_id)
             customer.is_active = False
+            customer.notification_id = None
             customer.save()
 
             slot = Slot.objects.get(id=notif.slot_id)

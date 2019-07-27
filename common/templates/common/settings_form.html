@@ -46,6 +46,7 @@
         tr {
             cursor: pointer;
         }
+
     </style>
 
     <title>Kings Security | Parking Lot Records</title>
@@ -81,6 +82,17 @@
                         <div class="container" style="margin-bottom: 100px;">
                             <form method="POST" enctype="multipart/form-data">
                                 {% csrf_token %}
+
+                                <section id="messages">
+                                    {% if messages %}
+                                    {% for message in messages %}
+                                    <div class="alert alert-{{ message.tags }}">
+                                        {{ message }}
+                                    </div>
+                                    {% endfor %}
+                                    {% endif %}
+                                </section>
+
                                 <fieldset class="form-group">
                                     <legend class="border-bottom mb-4">Change Settings</legend>
 
@@ -103,6 +115,7 @@
                                     </div>
 
                                 </fieldset>
+
                                 <div class="form-group float-right px-5">
                                     <button class="btn btn-outline-dark" type="submit">Update</button>
                                 </div>
@@ -135,6 +148,7 @@
             $(".recordlist").fadeIn(500);
 
             $(".backBtn").on("click", function () { location.href = "/"; });
+
         })
     </script>
     {% endblock %}

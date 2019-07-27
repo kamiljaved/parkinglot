@@ -58,6 +58,7 @@
 * Notification Panel for Parking Timeout
 * List-View of Vehicles in Parking Space
 * Dynamic Page-Update without Page-Reload
+* Standard and VIP Parking Slots
 * Record System
   - History Of Daily Vehicle Records.
   - View/Download a Record in PDF form.

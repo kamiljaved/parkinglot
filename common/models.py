@@ -30,3 +30,4 @@ class Settings(SingletonModel):
     auto_email = models.BooleanField(default=False, verbose_name='Auto-Mail Daily Record')
     num_standard_slots = models.PositiveIntegerField(default=27, verbose_name='No. of Standard Slots')
     num_vip_slots = models.PositiveIntegerField(default=27, verbose_name='No. of VIP Slots')
+    max_num_slots_of_a_type = 1000

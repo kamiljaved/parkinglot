@@ -31,14 +31,14 @@ urlpatterns = [
     path('park/', parking_views.add_vehicle, name='park'),
     
     path('notifications/', parking_views.homepage, name='notifications'),
-    path('notifications/<int:pk>/delete/', parking_views.delete_notification, name='notifications-delete'),
-    path('notifications/delete/', parking_views.delete_notification_bulk, name='notifications-bulk-delete'),
+    path('notifications/delete/', parking_views.delete_notifications, name='notifications-delete'),
 
 
     path('records/', record_views.record_list, name='records'),
     path('records/<int:pk>/', record_views.record_detail, name='record-detail'),
     path('records/current/', record_views.record_current, name='todays-record'),
     path('records/delete/', record_views.record_delete, name='record-delete'),
+    path('records/groupdelete/', record_views.record_groupdelete, name='record-groupdelete'),
     path('records/email/', record_views.record_email, name='records-email'),
     path('records/email/send/', record_views.record_email_send, name='records-email-send'),
     path('records/<int:pk>/pdf/', record_views.record_pdf_view, name='record-pdf'),
@@ -69,3 +69,10 @@ if settings.DEBUG:
 # for slot in Slot.objects.all():
 #     slot.occupied = False
 #     slot.save()
+
+# my_i = 1
+# for slot in Slot.objects.all():
+#     slot.occupied = False
+#     slot.slot_num = my_i 
+#     slot.save()
+#     my_i += 1
