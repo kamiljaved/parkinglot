@@ -8,8 +8,11 @@
 <h4 align="center">A web application to manage assignment of parking-lots to vehicles, and track daily usage.</h4>
 
 <p align="center">
-	[![forthebadge made-with-python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://www.python.org/)
 
+  <a href="https://www.python.org/">
+    <img src="http://ForTheBadge.com/images/badges/made-with-python.svg"
+         alt="Gitter">
+  </a>
   <a href="https://gitter.im/amitmerchant1990/electron-markdownify"><img src="https://badges.gitter.im/amitmerchant1990/electron-markdownify.svg"></a>
   <a href="https://saythanks.io/to/amitmerchant1990">
       <img src="https://img.shields.io/badge/SayThanks.io-%E2%98%BC-1EAEDB.svg">
