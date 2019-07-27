@@ -15,7 +15,7 @@
 		<img src="http://ForTheBadge.com/images/badges/made-with-python.svg" alt=" Made with Python.">
   </a>
   <a href="https://www.w3.org/standards/webdesign/htmlcss">
-		<img src="http://ForTheBadge.com/images/badges/uses-html.svg" alt="Uses HTML." height="50%">
+		<img src="http://ForTheBadge.com/images/badges/uses-html.svg" height="30px" alt="Uses HTML.">
   </a>
   <a href="https://www.w3.org/standards/webdesign/htmlcss">
 		<img src="http://ForTheBadge.com/images/badges/uses-css.svg" alt="Uses CSS.">
