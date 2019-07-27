@@ -29,6 +29,8 @@
   <a href="#notes">Notes</a>
 </p>
 
+<hr>
+
 ## Languages
 
 * Python (Django Framework)
