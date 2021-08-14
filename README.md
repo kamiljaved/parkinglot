@@ -97,6 +97,6 @@ $ http://127.0.0.1:8000/
 
 ---
 
-> [kamiljaved.epizy.com](http://kamiljaved.epizy.com/) &nbsp;&middot;&nbsp;
-> GitHub [@kamiljaved98](https://github.com/kamiljaved98) &nbsp;&middot;&nbsp;
+> [kamiljaved.pythonanywhere.com](https://kamiljaved.pythonanywhere.com/) &nbsp;&middot;&nbsp;
+> GitHub [@kamiljaved98](https://github.com/kamiljaved98)
 
