@@ -98,5 +98,5 @@ $ http://127.0.0.1:8000/
 ---
 
 > [kamiljaved.pythonanywhere.com](https://kamiljaved.pythonanywhere.com/) &nbsp;&middot;&nbsp;
-> GitHub [@kamiljaved98](https://github.com/kamiljaved98)
+> GitHub [@kamiljaved](https://github.com/kamiljaved)
 
