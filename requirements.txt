@@ -44,7 +44,7 @@
 # records/models.py: 1,4
 # records/tests.py: 1
 # records/views.py: 2,5,6,8,9,10,14,17,18,20,173,174
-Django == 2.2.3
+Django == 2.2.27
 
 # records/views.py: 12,13
 WeasyPrint == 48
